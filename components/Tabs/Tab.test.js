@@ -1,6 +1,15 @@
+/**
+ * 
+ * References:
+ *  - Jest: https://jestjs.io/
+ *  - Jest DOM: https://github.com/testing-library/jest-dom
+ *  - TestingLibrary: https://testing-library.com/
+ *  - Tutorial playlist: https://www.youtube.com/watch?v=DWCCkcJgvf0&list=PLrz61zkUHJJGoQcWPykdt4PaoQUD-SMkm
+ */
 import React from "react";
 import ReactDOM from "react";
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
+import '@testing-library/jest-dom'
 import { Tabs } from "./Tabs";
 import { useRouter } from "next/router";
 
@@ -77,7 +86,7 @@ test("Can set a different tab as the initial state", () => {
 test("Click from one tab to be the next", () => {
     const div = document.createElement("div");
 
-    const { getByTestId } = render(
+    const { getByTestId, getByText } = render(
         <Tabs initialTab={{ tab: "tab-3" }}>
             <div label="Tab 1">Something</div>
             <div label="Tab 2">Else</div>
@@ -86,12 +95,20 @@ test("Click from one tab to be the next", () => {
         div
     );
 
-    const content = getByTestId("content");
+    let content = getByTestId("content");
     expect(content.textContent).toBe("Hello");
 
     // diferentiate the current tab
-
+    const li = getByTestId("tab-3");
+    expect(li).toHaveClass("current");
+    
     // click on a new tab
+    const differentTab = getByText("Tab 2");
+    fireEvent.click(differentTab);
+    const differentLi = getByTestId("tab-2");
+    expect(differentLi).toHaveClass("current");
 
     // check the new content
+    content = getByTestId("content");
+    expect(content.textContent).toBe("Else");
 });

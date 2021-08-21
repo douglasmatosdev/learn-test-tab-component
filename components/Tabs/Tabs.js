@@ -36,10 +36,13 @@ const Tabs = ({ children, initialTab }) => {
                     const label = tab.props.label;
                     return (
                         <li
-                            key={i * 2}
+                            data-testid={slugfy(label)}
                             className={slugfy(label) == activeTab ? styles.current : ''}
+                            key={i * 2}
                         >
-                            <a onClick={e => handleClick(e, label)} href="#">{label}</a>
+                            <a onClick={e => handleClick(e, label)} href="#">
+                                {label}
+                            </a>
                         </li>
                     )
                 })}
