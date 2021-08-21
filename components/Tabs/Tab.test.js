@@ -49,7 +49,7 @@ test("<Tabs /> renders without crashing", () => {
 });
 
 // TEST === === === === === === === === === === === === === === ===
-test("Defaults to the first tab's content", () => {
+test.only("Defaults to the first tab's content", () => {
     const div = document.createElement("div");
 
     const { getByTestId } = render(
